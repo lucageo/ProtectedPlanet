@@ -11,15 +11,11 @@ class SavedSearch < ActiveRecord::Base
     search.results.pluck('wdpa_id')
   end
 
-  def download_wdpa_ids
-    download_search.results.pluck('wdpa_id')
-  end
-
   private
 
   def download_search
-    Search.search(search_term, {
-      filters: {'type' => 'protected_area'}.merge(parsed_filters || {ProtectedArea.count}),
+     Search.search(search_term, {
+      filters: {'type' => 'protected_area'}.merge(parsed_filters || {size: ProtectedArea.count}),
       without_aggregations: true
     })
   end
