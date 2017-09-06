@@ -4,6 +4,9 @@ class DownloadWorkers::Search < DownloadWorkers::Base
     @search_term = search_term
     @filters_json = filters_json
 
+    Rails.logger.info("--------LOGGER--------")
+    Rails.logger.info(@filters_json)
+
     while_generating(key(token)) do
       generate_download
       {status: 'ready', filename: filename(ids_digest)}.to_json
@@ -38,10 +41,14 @@ class DownloadWorkers::Search < DownloadWorkers::Base
   end
 
   def download_protected_area_ids
+    Rails.logger.info("--------LOGGER--------")
+    Rails.logger.info(download_search.filters)
     download_search.wdpa_ids
   end
 
   def download_search
+    Rails.logger.info("--------LOGGER--------")
+    Rails.logger.info(@filters_json)
     SavedSearch.new(
       search_term: @search_term,
       filters: @filters_json

@@ -4,6 +4,8 @@ class SavedSearch < ActiveRecord::Base
   end
 
   def parsed_filters
+    Rails.logger.info("--------LOGGER--------")
+    Rails.logger.info(filters)
     JSON.parse(filters) if filters.present?
   end
 
@@ -14,6 +16,8 @@ class SavedSearch < ActiveRecord::Base
   private
 
   def search
+    Rails.logger.info("--------LOGGER--------")
+    Rails.logger.info(parsed_filters)
     @search ||= Search.search(search_term, {
       filters: {'type' => 'protected_area'}.merge(parsed_filters || {}),
       without_aggregations: true
