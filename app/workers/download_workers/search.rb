@@ -17,7 +17,7 @@ class DownloadWorkers::Search < DownloadWorkers::Base
   end
 
   def generate_download
-    Download.generate(filename(ids_digest), {wdpa_ids: protected_area_ids})
+    Download.generate(filename(ids_digest), {wdpa_ids: download_protected_area_ids})
     send_completion_email unless email.blank?
   end
 
@@ -34,7 +34,18 @@ class DownloadWorkers::Search < DownloadWorkers::Base
   end
 
   def protected_area_ids
-    search.download_wdpa_ids
+    search.wdpa_ids
+  end
+
+  def download_protected_area_ids
+    download_search.wdpa_ids
+  end
+
+  def download_search
+    SavedSearch.new(
+      search_term: @search_term,
+      filters: @filters_json.merge({size: ProtectedArea.count})
+    )
   end
 
   def search
