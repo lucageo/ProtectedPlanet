@@ -1,12 +1,12 @@
 class Download::Requesters::Search < Download::Requesters::Base
   def initialize search_term, filters
     @search_term = search_term
-    @filters = filters.merge({size: ProtectedArea.count})
+    @filters = filters
   end
 
   def request
     unless ['ready', 'generating'].include? generation_info['status']
-      DownloadWorkers::Search.perform_async(token, @search_term, filters.to_json)
+      DownloadWorkers::Search.perform_async(token, @search_term, filters.merge({size: ProtectedArea.count}).to_json)
     end
 
     {'token' => token}.merge(generation_info)
