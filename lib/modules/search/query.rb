@@ -15,6 +15,9 @@ class Search::Query
     end
 
     if @options[:filters].present?
+      Rails.logger.info("--------LOGGER-------")
+      Rails.logger.info("Search::Query to_h")
+      Rails.logger.info(@options)
       base_query["bool"] ||= {}
       base_query["bool"]["filter"] = {
         "bool" => {

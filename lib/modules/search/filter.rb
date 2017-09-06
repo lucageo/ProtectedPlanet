@@ -1,5 +1,8 @@
 class Search::Filter
   def initialize term, options
+    Rails.logger.info("---------LOGGER----------")
+    Rails.logger.info("Search::Filter initialize")
+    Rails.logger.info(options)
     @options = options
     @term = standardise(term)
   end
@@ -9,6 +12,9 @@ class Search::Filter
   end
 
   def self.from_params params
+    Rails.logger.info("---------LOGGER----------")
+    Rails.logger.info("Search::Filter from_params")
+    Rails.logger.info(params)
     constructed_filters = []
 
     params.each do |name, value|
@@ -44,6 +50,9 @@ class Search::Filter
   end
 
   def filter
+    Rails.logger.info("----------LOGGER-----------")
+    Rails.logger.info("Search::Filter filter")
+    Rails.logger.info(@options)
     filter_type  = @options['type'].classify
     filter_class = "Search::Filter::#{filter_type}".constantize
 
