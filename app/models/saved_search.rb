@@ -13,13 +13,6 @@ class SavedSearch < ActiveRecord::Base
 
   private
 
-  def download_search
-     Search.search(search_term, {
-      filters: {'type' => 'protected_area'}.merge(parsed_filters || {size: ProtectedArea.count}),
-      without_aggregations: true
-    })
-  end
-
   def search
     @search ||= Search.search(search_term, {
       filters: {'type' => 'protected_area'}.merge(parsed_filters || {}),
