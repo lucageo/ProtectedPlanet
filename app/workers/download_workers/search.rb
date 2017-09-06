@@ -44,7 +44,7 @@ class DownloadWorkers::Search < DownloadWorkers::Base
   def download_search
     SavedSearch.new(
       search_term: @search_term,
-      filters: @filters_json.merge({size: ProtectedArea.count})
+      filters: @filters_json
     )
   end
 

@@ -1,7 +1,7 @@
 class Download::Requesters::Search < Download::Requesters::Base
   def initialize search_term, filters
     @search_term = search_term
-    @filters = filters
+    @filters = filters.merge({size: ProtectedArea.count})
   end
 
   def request
